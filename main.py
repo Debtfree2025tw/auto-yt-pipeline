@@ -1,5 +1,5 @@
 # main.py
-# Version: 1.0.1 — Optimized for Render Free Tier (512MB RAM)
+# Version: 1.0.2 — Optimized for Render Free Tier (512MB RAM)
 
 from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
 
@@ -19,6 +19,8 @@ if __name__ == "__main__":
 
     # Just run the first video to avoid memory overflow
     if video_ids:
-        run_full_pipeline([video_ids[0]])
+        first_video = video_ids[0] if isinstance(video_ids, list) else video_ids
+        run_full_pipeline([first_video])
     else:
         print("No video IDs returned. Skipping pipeline.")
+
