@@ -1,6 +1,11 @@
 yt-dlp
-openai-whisper
 moviepy
-google-api-python-client
+openai-whisper @ git+https://github.com/openai/whisper.git
 python-dotenv
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-auth-oauthlib
 requests
+tiktoken
+torch
