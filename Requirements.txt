@@ -1,7 +1,0 @@
-whisper
-yt-dlp
-moviepy
-openai
-google-api-python-client
-python-dotenv
-requests
