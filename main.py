@@ -1,6 +1,9 @@
 # main.py
 # Version: 1.1.0 — Optimized for Railway (8GB RAM)
 
+import sys
+sys.stdout.reconfigure(line_buffering=True)
+
 from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
 
 def health_check():
@@ -26,4 +29,5 @@ if __name__ == "__main__":
         run_full_pipeline(video_ids)
     else:
         print("⚠️ No video IDs returned. Skipping pipeline.")
+)
 
