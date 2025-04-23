@@ -1,0 +1,33 @@
+{
+  "project": "auto-yt-pipeline",
+  "platform": "Railway",
+  "github_repo": "Debtfree2025tw/auto-yt-pipeline",
+  "branch": "main",
+  "memory_limit": "8GB",
+  "cpu_limit": "8vCPU",
+  "cron_schedule": "0 17 * * *",
+  "entry_point": "main.py",
+  "health_check": "✅ Pipeline initialized. Railway OK.",
+  "start_command": "python main.py",
+  "build_command": "pip install -r requirements.txt",
+  "deployment_region": "US East (Virginia, USA)",
+  "restart_policy": "Never",
+  "env_vars": {
+    "YOUTUBE_API_KEY": "USE_DOTENV"
+  },
+  "integrations": {
+    "GitHub": true,
+    "Discord": false,
+    "Slack": false,
+    "Google": false
+  },
+  "post_go_live_upgrades": [
+    "Auto-resume with cache.json",
+    ".env secret loader",
+    "Switch to whisper.cpp for large files",
+    "Log each batch to /logs/batch_<timestamp>.txt",
+    "resize_to_short() for 9:16 by default",
+    "Telegram alerts for batches",
+    "Metricool API publishing"
+  ]
+}
