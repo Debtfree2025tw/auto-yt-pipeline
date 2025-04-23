@@ -1,5 +1,6 @@
 # main.py
 # Version: 1.1.1 — Enhanced logging for Railway + API visibility
+print("✅ main.py has started running...")
 
 import sys
 print("✅ Python version:", sys.version)
@@ -41,5 +42,8 @@ if __name__ == "__main__":
         run_full_pipeline(video_ids)
     else:
         print("⚠️ No video IDs returned. Check your YOUTUBE_API_KEY or quota. Verify keywords.")
+
+print("✅ Script finished running.")
+
 
 
