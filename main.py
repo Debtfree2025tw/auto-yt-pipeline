@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     if video_ids:
         run_full_pipeline(video_ids)
-    else:
-        print("⚠️ No video IDs returned. Skipping pipeline.")
-)
+   else:
+    print("⚠️ No video IDs returned. Check your YOUTUBE_API_KEY or quota.")
+
 
