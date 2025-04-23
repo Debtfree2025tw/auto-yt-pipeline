@@ -1,11 +1,13 @@
 # clip_editor.py
-# Version: 1.1.3 — Hardened parsing and clip safety
+# Version: 1.1.4 — Adds import trace + safe ffmpeg-friendly structure
+
+print("📦 Loading clip_editor.py...")
 
 import os
 import json
 import re
-from moviepy.editor import VideoFileClip
 from pathlib import Path
+from moviepy.editor import VideoFileClip
 
 def parse_segments(json_string):
     print("🔍 Parsing segment input...")
