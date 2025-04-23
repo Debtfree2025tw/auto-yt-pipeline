@@ -1,9 +1,14 @@
 # main.py
-# Version: 1.0.2 — Optimized for Render Free Tier (512MB RAM)
+# Version: 1.1.0 — Optimized for Railway (8GB RAM)
 
 from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
 
+def health_check():
+    print("✅ Pipeline initialized. Railway OK.")
+
 if __name__ == "__main__":
+    health_check()
+
     keywords = [
         "AI agents",
         "n8n automation workflows",
@@ -14,13 +19,11 @@ if __name__ == "__main__":
         "deepseek"
     ]
 
-    # ⚠️ RAM-Safe Mode: Limit to 1 video across all keywords
-    video_ids = get_trending_video_ids(keywords, max_results=1)
+    # Now safe to run up to 2 per keyword
+    video_ids = get_trending_video_ids(keywords, max_results=2)
 
-    # Just run the first video to avoid memory overflow
     if video_ids:
-        first_video = video_ids[0] if isinstance(video_ids, list) else video_ids
-        run_full_pipeline([first_video])
+        run_full_pipeline(video_ids)
     else:
-        print("No video IDs returned. Skipping pipeline.")
+        print("⚠️ No video IDs returned. Skipping pipeline.")
 
