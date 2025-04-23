@@ -1,6 +1,14 @@
 # main.py
 # Version: 1.1.1 — Enhanced logging for Railway + API visibility
 
+import sys
+print("✅ Python version:", sys.version)
+print("✅ Python path:", sys.executable)
+print("✅ Installed packages:")
+import subprocess
+subprocess.run(["pip", "list"])
+
+
 from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
 import os
 
