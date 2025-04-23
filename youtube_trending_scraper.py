@@ -2,6 +2,9 @@
 # Version: 1.4.2
 # Updated: 2025-04-23 — Hardened error trapping + logging visibility
 
+print("📦 Loading youtube_trending_scraper.py...")  # at top of youtube_trending_scraper
+print("📦 Loading clip_editor.py...")  # at top of clip_editor
+
 import os
 from googleapiclient.discovery import build
 from whisper_gpt_analyzer import download_audio, analyze_video
