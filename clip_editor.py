@@ -1,6 +1,5 @@
 # clip_editor.py
-# Version: 1.1.2
-# Updated: 2025-04-22 — restored missing import
+# Version: 1.1.3 — Hardened parsing and clip safety
 
 import os
 import json
@@ -9,6 +8,8 @@ from moviepy.editor import VideoFileClip
 from pathlib import Path
 
 def parse_segments(json_string):
+    print("🔍 Parsing segment input...")
+
     if isinstance(json_string, str):
         try:
             data = json.loads(json_string)
@@ -33,13 +34,13 @@ def parse_segments(json_string):
                 "end": float(item["end"]),
                 "quote": quote
             })
+    print(f"✅ Parsed {len(segments)} valid segments.")
     return segments
 
-# Synced safe_filename with global usage pattern
 def safe_filename(text):
-    text = re.sub(r"[^\w\s-]", "", text)  # remove special chars
-    text = re.sub(r"\s+", "_", text)       # replace spaces with _
-    return text[:50]                          # trim length
+    text = re.sub(r"[^\w\s-]", "", text)
+    text = re.sub(r"\s+", "_", text)
+    return text[:50]
 
 def cut_clips_from_segments(video_path, segments_json, max_duration=59.0):
     print("🧪 Parsing segments...")
@@ -53,22 +54,28 @@ def cut_clips_from_segments(video_path, segments_json, max_duration=59.0):
     clips_dir = Path("clips")
     clips_dir.mkdir(parents=True, exist_ok=True)
 
-    clip = VideoFileClip(video_path)
-    print(f"🎬 Loaded video: {video_path} ({clip.duration:.2f} sec)")
+    print(f"🎬 Loading video: {video_path}")
+    try:
+        with VideoFileClip(video_path) as clip:
+            print(f"🎞️ Duration: {clip.duration:.2f} seconds")
+            for i, seg in enumerate(segments):
+                start = seg["start"]
+                end = min(seg["end"], start + max_duration)
+                quote = seg.get("quote", "")
+                base_name = safe_filename(f"{Path(video_path).stem}_clip_{i+1}_{quote[:30]}")
+                filename = base_name + ".mp4"
+                output_path = clips_dir / filename
 
-    for i, seg in enumerate(segments):
-        start = seg["start"]
-        end = min(seg["end"], start + max_duration)
-        quote = seg.get("quote", "")
-        base_name = safe_filename(f"clip_{i+1}_{quote[:30]}")
-        filename = base_name + ".mp4"
-        output_path = clips_dir / filename
-        try:
-            clip.subclip(start, end).write_videofile(
-                str(output_path), codec='libx264', audio_codec='aac', verbose=False, logger=None
-            )
-            print(f"✅ Saved clip: {output_path}")
-        except Exception as e:
-            print(f"❌ Failed to cut clip {filename}: {e}")
-
-    clip.close()
+                try:
+                    clip.subclip(start, end).write_videofile(
+                        str(output_path),
+                        codec='libx264',
+                        audio_codec='aac',
+                        verbose=False,
+                        logger=None
+                    )
+                    print(f"✅ Saved clip: {output_path}")
+                except Exception as e:
+                    print(f"❌ Failed to cut clip {i+1} ({quote[:20]}...): {e}")
+    except Exception as e:
+        print(f"❌ Error loading or processing video: {e}")
