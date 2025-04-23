@@ -1,16 +1,19 @@
 # main.py
-# Version: 1.1.0 — Optimized for Railway (8GB RAM)
-
-import sys
-sys.stdout.reconfigure(line_buffering=True)
+# Version: 1.1.1 — Enhanced logging for Railway + API visibility
 
 from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
+import os
 
 def health_check():
     print("✅ Pipeline initialized. Railway OK.")
 
 if __name__ == "__main__":
     health_check()
+
+    YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
+    if not YOUTUBE_API_KEY:
+        print("❌ Missing YOUTUBE_API_KEY. Check Railway environment variables.")
+        exit(1)
 
     keywords = [
         "AI agents",
@@ -22,12 +25,13 @@ if __name__ == "__main__":
         "deepseek"
     ]
 
-    # Now safe to run up to 2 per keyword
+    print("🔍 Fetching trending videos for keywords...")
     video_ids = get_trending_video_ids(keywords, max_results=2)
 
     if video_ids:
+        print(f"🎯 Found {len(video_ids)} videos. Starting full pipeline...")
         run_full_pipeline(video_ids)
-   else:
-    print("⚠️ No video IDs returned. Check your YOUTUBE_API_KEY or quota.")
+    else:
+        print("⚠️ No video IDs returned. Check your YOUTUBE_API_KEY or quota. Verify keywords.")
 
 
