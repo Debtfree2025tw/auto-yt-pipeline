@@ -27,8 +27,12 @@ def health_check():
     log("✅ Pipeline initialized. Railway OK.")
 
 if __name__ == "__main__":
-    log("✅ main.py has started running...")
-    health_check()
+    print("✅ main.py has started running...")
+    import time
+    for i in range(5):
+        print(f"⏱️ Tick {i+1}")
+        time.sleep(1)
+
 
     YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
     if not YOUTUBE_API_KEY:
