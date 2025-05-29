@@ -35,8 +35,10 @@ if __name__ == "__main__":
     print("✅ main.py has started running...")
     import time
     for i in range(5):
-        print(f"⏱️ Tick {i+1}")
-        time.sleep(1)
+    print(f"⏱️ Tick {i+1}")
+    time.sleep(1)
+sys.stdout.flush()
+
 
 
     YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
