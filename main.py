@@ -1,5 +1,6 @@
 # main.py
 # Version: 1.1.2 — Forced stdout flushing for Railway
+print("[✓] main.py started running")
 
 import time
 print("🚀 Script started. Holding for 60 seconds to view logs.")
