@@ -1,0 +1,13 @@
+{
+  "build": {
+    "env": "python"
+  },
+  "start": "python main.py",
+  "services": {
+    "auto-yt-pipeline": {
+      "run": {
+        "type": "worker"
+      }
+    }
+  }
+}
