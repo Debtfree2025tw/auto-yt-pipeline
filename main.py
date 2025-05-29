@@ -1,28 +1,33 @@
 # main.py
-# Version: 1.1.1 — Enhanced logging for Railway + API visibility
+# Version: 1.1.2 — Forced stdout flushing for Railway
 
 import sys
-print("✅ Python version:", sys.version)
-print("✅ Python path:", sys.executable)
-print("✅ Installed packages:")
+import os
 import subprocess
+import time
+
+def log(msg):
+    print(msg)
+    sys.stdout.flush()
+
+log("✅ Python version: " + sys.version)
+log("✅ Python path: " + sys.executable)
+log("✅ Installed packages:")
 subprocess.run(["pip", "list"])
+sys.stdout.flush()
 
 from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
-import os
-
 
 def health_check():
-    print("✅ Pipeline initialized. Railway OK.")
-
+    log("✅ Pipeline initialized. Railway OK.")
 
 if __name__ == "__main__":
-    print("✅ main.py has started running...")
+    log("✅ main.py has started running...")
     health_check()
 
     YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
     if not YOUTUBE_API_KEY:
-        print("❌ Missing YOUTUBE_API_KEY. Check Railway environment variables.")
+        log("❌ Missing YOUTUBE_API_KEY. Check Railway environment variables.")
         exit(1)
 
     keywords = [
@@ -35,12 +40,12 @@ if __name__ == "__main__":
         "deepseek"
     ]
 
-    print("🔍 Fetching trending videos for keywords...")
+    log("🔍 Fetching trending videos for keywords...")
     video_ids = get_trending_video_ids(keywords, max_results=2)
 
     if video_ids:
-        print(f"🎯 Found {len(video_ids)} videos. Starting full pipeline...")
+        log(f"🎯 Found {len(video_ids)} videos. Starting full pipeline...")
         run_full_pipeline(video_ids)
-        print("✅ Batch complete.")
+        log("✅ Done.")
     else:
-        print("⚠️ No video IDs returned. Check your YOUTUBE_API_KEY or quota. Verify keywords.")
+        log("⚠️ No video IDs returned. Check your YOUTUBE_API_KEY or quota. Verify keywords.")
