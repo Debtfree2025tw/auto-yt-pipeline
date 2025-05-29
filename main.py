@@ -21,7 +21,12 @@ log("✅ Installed packages:")
 subprocess.run(["pip", "list"])
 sys.stdout.flush()
 
-from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
+try:
+    from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
+except Exception as e:
+    log(f"❌ Failed to import scraper module: {e}")
+    exit(1)
+
 
 def health_check():
     log("✅ Pipeline initialized. Railway OK.")
