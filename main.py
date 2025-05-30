@@ -1,5 +1,5 @@
 # main.py
-# Version: Stable — Full runtime logic + stdout flushing for Railway
+# Version: Stable — Full pipeline with logging and imports fixed
 
 import os
 import sys
@@ -12,21 +12,21 @@ def log(msg):
 
 log("[✓] main.py started")
 
-# Optional diagnostics (can remove if not needed)
+# Diagnostics (optional)
 log("✅ Python version: " + sys.version)
 log("✅ Python path: " + sys.executable)
 log("✅ Installed packages:")
 subprocess.run(["pip", "list"])
 sys.stdout.flush()
 
-# Try importing pipeline
+# Safe import of your pipeline module
 try:
     from youtube_trending_scraper import get_trending_video_ids, run_full_pipeline
 except Exception as e:
     log(f"❌ Failed to import scraper module: {e}")
     exit(1)
 
-# Entry point
+# Run pipeline
 if __name__ == "__main__":
     log("✅ main.py is running full pipeline")
 
